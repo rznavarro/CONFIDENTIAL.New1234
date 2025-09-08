@@ -138,21 +138,21 @@ export const users: User[] = [
     avatar: 'https://images.pexels.com/photos/3777943/pexels-photo-3777943.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop'
   },
   {
-    id: '15',
+    id: '14',
     name: 'Diego Silva',
     email: 'diego.silva@vortexia.com',
     role: 'Vendedor',
-    accessCode: 'VX015',
+    accessCode: 'VX014',
     supervisor: 'Joaquín Navarro',
     team: 'equipo-ceo',
     avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop'
   },
   {
-    id: '16',
+    id: '15',
     name: 'Roberto Mendoza',
-    email: 'roberto.mendoza@vortexia.com',
+    email: 'roberto.Mendoza@vortexia.com',
     role: 'Vendedor',
-    accessCode: 'VX016',
+    accessCode: 'VX015',
     supervisor: 'Joaquín Navarro',
     team: 'equipo-ceo',
     avatar: 'https://images.pexels.com/photos/3760069/pexels-photo-3760069.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop'

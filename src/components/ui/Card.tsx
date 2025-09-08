@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div 
       className={`
-        bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 
+        bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 lg:p-6 
         ${hover ? 'hover:bg-slate-700/50 hover:border-slate-600/50 hover:shadow-xl hover:shadow-cyan-500/10 transition-all duration-300 cursor-pointer' : ''}
         ${className}
       `}
@@ -55,9 +55,9 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg'
+    sm: 'px-3 py-2 text-xs lg:text-sm',
+    md: 'px-4 py-2.5 lg:px-6 lg:py-3 text-sm lg:text-base',
+    lg: 'px-6 py-3 lg:px-8 lg:py-4 text-base lg:text-lg'
   };
 
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';

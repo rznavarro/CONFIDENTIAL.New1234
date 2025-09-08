@@ -163,12 +163,59 @@ const GoalCard: React.FC<{
 
 export const GoalsView: React.FC<GoalsViewProps> = ({ user }) => {
   const [showGoalForm, setShowGoalForm] = useState(false);
-  const [assignedGoals, setAssignedGoals] = useState(() => getGoalsByAssigner(user.id));
+  const [assignedGoals, setAssignedGoals] = useState(() => {
+    // Show goals assigned by this user (for CEO/Supervisors)
+    return getGoalsByAssigner(user.id);
+  });
   const [myGoals, setMyGoals] = useState(() => getGoalsByAssignee(user.id));
+  const [allRelevantGoals, setAllRelevantGoals] = useState(() => {
+    // Show all goals that are relevant to this user
+    const allGoals = getGoals();
+    return allGoals.filter(goal => {
+      // Show goals assigned to me
+      if (goal.assignedTo === user.id) return true;
+      
+      // Show goals I assigned
+      if (goal.assignedBy === user.id) return true;
+      
+      // For team members, show goals assigned by their supervisor
+      if (user.supervisor) {
+        const supervisor = users.find(u => u.name === user.supervisor);
+        if (supervisor && goal.assignedBy === supervisor.id) return true;
+      }
+      
+      // For supervisors, show goals assigned by CEO
+      if (user.role === 'Supervisor') {
+        const ceo = users.find(u => u.role === 'CEO');
+        if (ceo && goal.assignedBy === ceo.id) return true;
+      }
+      
+      return false;
+    });
+  });
 
   const refreshGoals = () => {
     setAssignedGoals(getGoalsByAssigner(user.id));
     setMyGoals(getGoalsByAssignee(user.id));
+    
+    // Refresh all relevant goals
+    const allGoals = getGoals();
+    setAllRelevantGoals(allGoals.filter(goal => {
+      if (goal.assignedTo === user.id) return true;
+      if (goal.assignedBy === user.id) return true;
+      
+      if (user.supervisor) {
+        const supervisor = users.find(u => u.name === user.supervisor);
+        if (supervisor && goal.assignedBy === supervisor.id) return true;
+      }
+      
+      if (user.role === 'Supervisor') {
+        const ceo = users.find(u => u.role === 'CEO');
+        if (ceo && goal.assignedBy === ceo.id) return true;
+      }
+      
+      return false;
+    }));
   };
 
   const handleDeleteGoal = (goalId: string) => {
@@ -191,17 +238,10 @@ export const GoalsView: React.FC<GoalsViewProps> = ({ user }) => {
         <div>
           <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
             <Target className="w-6 h-6 text-amber-400" />
-            {user.role === 'CEO' ? 'Gestión de Objetivos Corporativos' : 
-             user.role === 'Supervisor' ? 'Gestión de Objetivos del Equipo' : 
-             'Mis Objetivos y Metas'}
+            Objetivos y Metas
           </h2>
           <p className="text-slate-400">
-            {user.role === 'CEO' 
-              ? 'Asigna y supervisa objetivos para toda la organización'
-              : user.role === 'Supervisor'
-              ? 'Establece metas y estrategias para tu equipo'
-              : 'Revisa tus objetivos asignados y progreso'
-            }
+            Gestiona y revisa todos los objetivos relevantes para tu rol
           </p>
         </div>
         {canAssignGoals && (
@@ -212,10 +252,41 @@ export const GoalsView: React.FC<GoalsViewProps> = ({ user }) => {
         )}
       </div>
 
+      {/* All Relevant Goals - New unified view */}
+      <div>
+        <h3 className="text-lg font-semibold text-white mb-4">Todos los Objetivos Relevantes</h3>
+        {allRelevantGoals.length > 0 ? (
+          <div className="grid gap-4">
+            {allRelevantGoals.map(goal => {
+              const isAssignedToMe = goal.assignedTo === user.id;
+              const isAssignedByMe = goal.assignedBy === user.id;
+              
+              return (
+                <GoalCard
+                  key={goal.id}
+                  goal={goal}
+                  user={user}
+                  onDelete={isAssignedByMe ? handleDeleteGoal : () => {}}
+                  onStatusChange={isAssignedToMe ? handleStatusChange : () => {}}
+                  showAssignee={!isAssignedToMe}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <Card>
+            <div className="text-center py-8">
+              <Target className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-400">No hay objetivos disponibles</p>
+            </div>
+          </Card>
+        )}
+      </div>
+
       {/* My Goals (for non-CEO/Supervisor users) */}
-      {!canAssignGoals && myGoals.length > 0 && (
+      {myGoals.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Mis Objetivos Asignados</h3>
+          <h3 className="text-lg font-semibold text-cyan-400 mb-4">Mis Objetivos Personales</h3>
           <div className="grid gap-4">
             {myGoals.map(goal => (
               <GoalCard
@@ -232,55 +303,20 @@ export const GoalsView: React.FC<GoalsViewProps> = ({ user }) => {
       )}
 
       {/* Assigned Goals (for CEO/Supervisors) */}
-      {canAssignGoals && (
+      {canAssignGoals && assignedGoals.length > 0 && (
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">
-            {user.role === 'CEO' ? 'Objetivos Asignados a la Organización' : 'Objetivos Asignados a mi Equipo'}
+            Objetivos que he Asignado
           </h3>
-          {assignedGoals.length > 0 ? (
-            <div className="grid gap-4">
-              {assignedGoals.map(goal => (
-                <GoalCard
-                  key={goal.id}
-                  goal={goal}
-                  user={user}
-                  onDelete={handleDeleteGoal}
-                  onStatusChange={handleStatusChange}
-                  showAssignee={true}
-                />
-              ))}
-            </div>
-          ) : (
-            <Card>
-              <div className="text-center py-12">
-                <Target className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No hay objetivos asignados</h3>
-                <p className="text-slate-400 mb-6">
-                  Comienza asignando objetivos y estrategias a tu equipo
-                </p>
-                <Button onClick={() => setShowGoalForm(true)}>
-                  <Plus className="w-4 h-4" />
-                  Asignar primera meta
-                </Button>
-              </div>
-            </Card>
-          )}
-        </div>
-      )}
-
-      {/* My Goals for CEO/Supervisors */}
-      {canAssignGoals && myGoals.length > 0 && (
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Mis Objetivos Personales</h3>
           <div className="grid gap-4">
-            {myGoals.map(goal => (
+            {assignedGoals.map(goal => (
               <GoalCard
                 key={goal.id}
                 goal={goal}
                 user={user}
                 onDelete={handleDeleteGoal}
                 onStatusChange={handleStatusChange}
-                showAssignee={false}
+                showAssignee={true}
               />
             ))}
           </div>
@@ -288,29 +324,29 @@ export const GoalsView: React.FC<GoalsViewProps> = ({ user }) => {
       )}
 
       {/* Goal Statistics */}
-      {canAssignGoals && assignedGoals.length > 0 && (
+      {allRelevantGoals.length > 0 && (
         <Card>
           <h3 className="text-lg font-semibold text-white mb-4">Estadísticas de Objetivos</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-cyan-400">{assignedGoals.length}</p>
-              <p className="text-sm text-slate-400">Total Asignados</p>
+              <p className="text-2xl font-bold text-cyan-400">{allRelevantGoals.length}</p>
+              <p className="text-sm text-slate-400">Total Relevantes</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-green-400">
-                {assignedGoals.filter(g => g.status === 'completed').length}
+                {allRelevantGoals.filter(g => g.status === 'completed').length}
               </p>
               <p className="text-sm text-slate-400">Completados</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-blue-400">
-                {assignedGoals.filter(g => g.status === 'active').length}
+                {allRelevantGoals.filter(g => g.status === 'active').length}
               </p>
               <p className="text-sm text-slate-400">Activos</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-red-400">
-                {assignedGoals.filter(g => new Date() > g.deadline && g.status === 'active').length}
+                {allRelevantGoals.filter(g => new Date() > g.deadline && g.status === 'active').length}
               </p>
               <p className="text-sm text-slate-400">Vencidos</p>
             </div>

@@ -100,6 +100,7 @@ export const MetricsView: React.FC<MetricsViewProps> = ({ user }) => {
 
       {/* Core Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         <MetricCard
           title="Contactos LinkedIn"
           value={companyMetrics?.linkedinContacts || metrics.linkedinContacts}
@@ -139,7 +140,7 @@ export const MetricsView: React.FC<MetricsViewProps> = ({ user }) => {
 
       {/* CEO Specific Metrics */}
       {user.role === 'CEO' && companyMetrics && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           <MetricCard
             title="Reuniones"
             value={companyMetrics.meetings || 0}
@@ -177,6 +178,7 @@ export const MetricsView: React.FC<MetricsViewProps> = ({ user }) => {
             Ganancias del Equipo
           </h3>
           <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-cyan-400">${metrics.personalEarnings.toLocaleString()}</p>
               <p className="text-slate-400">Mis Ganancias</p>

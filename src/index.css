@@ -94,4 +94,64 @@
   .mobile-hide {
     @apply hidden;
   }
+  
+  /* Improve mobile scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Better mobile form inputs */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Mobile-friendly buttons */
+  button {
+    min-height: 44px; /* iOS recommended touch target */
+  }
+  
+  /* Responsive text sizes */
+  .text-responsive {
+    @apply text-sm lg:text-base;
+  }
+  
+  .text-responsive-lg {
+    @apply text-base lg:text-lg;
+  }
+  
+  .text-responsive-xl {
+    @apply text-lg lg:text-xl;
+  }
+}
+
+/* Smooth transitions for better UX */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Improved focus states for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Better loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }

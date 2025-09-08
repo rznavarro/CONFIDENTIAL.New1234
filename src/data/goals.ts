@@ -3,12 +3,6 @@ import { Goal } from '../types';
 // In-memory storage for goals
 let goals: Goal[] = [];
 
-export const createGoal = (goalData: Goal): void => {
-  goals.push(goalData);
-  // Persist to localStorage for demo purposes
-  localStorage.setItem('vortexia_goals', JSON.stringify(goals));
-};
-
 export const getGoals = (): Goal[] => {
   // Load from localStorage on first access
   if (goals.length === 0) {
@@ -22,6 +16,12 @@ export const getGoals = (): Goal[] => {
     }
   }
   return goals;
+};
+
+export const createGoal = (goalData: Goal): void => {
+  goals.push(goalData);
+  // Persist to localStorage for demo purposes
+  localStorage.setItem('vortexia_goals', JSON.stringify(goals));
 };
 
 export const getGoalsByAssignee = (userId: string): Goal[] => {
