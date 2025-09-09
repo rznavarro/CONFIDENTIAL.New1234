@@ -117,4 +117,4 @@ const MetricsView: React.FC<MetricsViewProps> = ({
   );
 };
 
-export default MetricsView;
+export { MetricsView };
