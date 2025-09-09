@@ -30,57 +30,57 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 lg:p-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Logo size="lg" className="justify-center mb-4" />
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">
             Acceso al Sistema
           </h1>
-          <p className="text-slate-400">
+          <p className="text-sm lg:text-base text-slate-400">
             Ingresa tus credenciales corporativas
           </p>
         </div>
 
         <Card className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm lg:text-base font-medium text-slate-300 mb-2">
                 Email Corporativo
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                <Mail className="absolute left-3 top-3 h-4 w-4 lg:h-5 lg:w-5 text-slate-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nombre@vortexia.com"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 lg:py-4 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-sm lg:text-base"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm lg:text-base font-medium text-slate-300 mb-2">
                 Código de Acceso
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                <Lock className="absolute left-3 top-3 h-4 w-4 lg:h-5 lg:w-5 text-slate-400" />
                 <input
                   type="text"
                   value={accessCode}
                   onChange={(e) => setAccessCode(e.target.value.toUpperCase())}
                   placeholder="VX001"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 lg:py-4 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-sm lg:text-base"
                   required
                 />
               </div>
             </div>
 
             {error && (
-              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded-lg">
-                <p className="text-red-400 text-sm">{error}</p>
+              <div className="p-3 lg:p-4 bg-red-500/20 border border-red-500/50 rounded-lg">
+                <p className="text-red-400 text-sm lg:text-base">{error}</p>
               </div>
             )}
 
@@ -92,7 +92,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
             >
               {isLoading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   Verificando...
                 </>
               ) : (
@@ -103,7 +103,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         </Card>
 
         <div className="mt-6 text-center">
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-500 text-xs lg:text-sm">
             ¿Problemas para acceder? Contacta al administrador del sistema.
           </p>
         </div>

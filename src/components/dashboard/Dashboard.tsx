@@ -17,6 +17,7 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
   const [activeSection, setActiveSection] = useState('team');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const renderContent = () => {
     switch (activeSection) {
@@ -38,17 +39,45 @@ export const Dashboard: React.FC<DashboardProps> = ({ user, onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col">
+    <div className="min-h-screen bg-slate-900 flex flex-col overflow-hidden">
       <Header user={user} onLogout={onLogout} />
       
-      <div className="flex flex-1">
-        <Sidebar 
-          activeSection={activeSection}
-          onSectionChange={setActiveSection}
-          userRole={user.role}
-        />
+      <div className="flex flex-1 relative">
+        {/* Mobile sidebar overlay */}
+        {sidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
         
-        <main className="flex-1 p-6 overflow-auto">
+        {/* Sidebar */}
+        <div className={`
+          fixed lg:relative inset-y-0 left-0 z-50 lg:z-auto
+          transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0
+          transition-transform duration-300 ease-in-out lg:transition-none
+        `}>
+          <Sidebar 
+            activeSection={activeSection}
+            onSectionChange={(section) => {
+              setActiveSection(section);
+              setSidebarOpen(false); // Close mobile sidebar when section changes
+            }}
+            userRole={user.role}
+          />
+        </div>
+        
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="lg:hidden fixed top-20 left-4 z-30 p-2 bg-slate-800 rounded-lg shadow-lg"
+        >
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        
+        <main className="flex-1 p-4 lg:p-6 overflow-auto">
           <div className="max-w-7xl mx-auto">
             {renderContent()}
           </div>

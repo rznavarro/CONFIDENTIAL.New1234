@@ -33,19 +33,20 @@ const getRoleBadgeColor = (role: string) => {
 
 export const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
   return (
-    <header className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50 px-6 py-4">
+    <header className="bg-slate-900/80 backdrop-blur-sm border-b border-slate-700/50 px-4 lg:px-6 py-3 lg:py-4 sticky top-0 z-20">
       <div className="flex items-center justify-between">
-        <Logo size="md" />
+        <Logo size="sm" className="lg:hidden" />
+        <Logo size="md" className="hidden lg:flex" />
         
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
             <img
               src={user.avatar}
               alt={user.name}
-              className="w-10 h-10 rounded-full border-2 border-slate-600"
+              className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border-2 border-slate-600"
             />
             <div className="hidden md:block">
-              <p className="text-white font-semibold">{user.name}</p>
+              <p className="text-white font-semibold text-sm lg:text-base">{user.name}</p>
               <div className="flex items-center gap-2">
                 {getRoleIcon(user.role)}
                 <span className={`text-xs px-2 py-1 rounded-full bg-gradient-to-r ${getRoleBadgeColor(user.role)} text-white font-medium`}>
@@ -55,8 +56,8 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
             </div>
           </div>
           
-          <Button variant="outline" size="sm" onClick={onLogout}>
-            <LogOut className="w-4 h-4" />
+          <Button variant="outline" size="sm" onClick={onLogout} className="text-xs lg:text-sm">
+            <LogOut className="w-3 h-3 lg:w-4 lg:h-4" />
             <span className="hidden md:inline">Cerrar Sesión</span>
           </Button>
         </div>
