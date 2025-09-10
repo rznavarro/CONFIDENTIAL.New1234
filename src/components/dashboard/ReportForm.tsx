@@ -48,85 +48,85 @@ export const ReportForm: React.FC<ReportFormProps> = ({ user, onClose, onReportC
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-50 safe-area-inset">
+      <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white">Crear Nuevo Reporte</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-white">Crear Nuevo Reporte</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-slate-700 rounded-lg transition-colors touch-manipulation"
           >
             <X className="w-5 h-5 text-slate-400" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Período del Reporte
             </label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="text"
                 value={formData.period}
                 onChange={(e) => handleInputChange('period', e.target.value)}
                 placeholder="Ej: Enero 2024, Semana 1"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Contactos de LinkedIn
             </label>
             <div className="relative">
-              <Linkedin className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <Linkedin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="number"
                 value={formData.linkedinContacts}
                 onChange={(e) => handleInputChange('linkedinContacts', Number(e.target.value))}
                 placeholder="0"
                 min="0"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Mensajes Enviados
             </label>
             <div className="relative">
-              <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <MessageSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="number"
                 value={formData.messagesSent}
                 onChange={(e) => handleInputChange('messagesSent', Number(e.target.value))}
                 placeholder="0"
                 min="0"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Respuestas Recibidas
             </label>
             <div className="relative">
-              <TrendingUp className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <TrendingUp className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="number"
                 value={formData.responses}
                 onChange={(e) => handleInputChange('responses', Number(e.target.value))}
                 placeholder="0"
                 min="0"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
               />
             </div>
@@ -134,18 +134,18 @@ export const ReportForm: React.FC<ReportFormProps> = ({ user, onClose, onReportC
 
           {user.role === 'CEO' && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
                 Reuniones
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
                 <input
                   type="number"
                   value={formData.meetings || 0}
                   onChange={(e) => handleInputChange('meetings', Number(e.target.value))}
                   placeholder="0"
                   min="0"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  className="form-input pl-10 sm:pl-12"
                 />
               </div>
             </div>

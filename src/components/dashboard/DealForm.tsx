@@ -50,83 +50,86 @@ export const DealForm: React.FC<DealFormProps> = ({ user, onClose, onDealCreated
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-50 safe-area-inset">
+      <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-white">Crear Nuevo Deal</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-white">Crear Nuevo Deal</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-slate-700 rounded-lg transition-colors touch-manipulation"
           >
             <X className="w-5 h-5 text-slate-400" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Nombre del Cliente
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="text"
                 value={formData.clientName}
                 onChange={(e) => handleInputChange('clientName', e.target.value)}
                 placeholder="Nombre completo"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
+                autoComplete="name"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 placeholder="cliente@empresa.com"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
+                autoComplete="email"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Teléfono
             </label>
             <div className="relative">
-              <Phone className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => handleInputChange('phone', e.target.value)}
                 placeholder="+56 9 1234 5678"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
+                autoComplete="tel"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
               Precio del Servicio
             </label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+              <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
               <input
                 type="number"
                 value={formData.servicePrice}
                 onChange={(e) => handleInputChange('servicePrice', Number(e.target.value))}
                 placeholder="0"
                 min="0"
-                className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                className="form-input pl-10 sm:pl-12"
                 required
               />
             </div>
@@ -134,18 +137,18 @@ export const DealForm: React.FC<DealFormProps> = ({ user, onClose, onDealCreated
 
           {user.role === 'CEO' && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
                 Costo de Creación
               </label>
               <div className="relative">
-                <Calculator className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                <Calculator className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
                 <input
                   type="number"
                   value={formData.creationCost || 0}
                   onChange={(e) => handleInputChange('creationCost', Number(e.target.value))}
                   placeholder="0"
                   min="0"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  className="form-input pl-10 sm:pl-12"
                 />
               </div>
             </div>
@@ -153,18 +156,18 @@ export const DealForm: React.FC<DealFormProps> = ({ user, onClose, onDealCreated
 
           {user.role !== 'CEO' && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm sm:text-base font-medium text-slate-300 mb-2">
                 Comisión
               </label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-slate-400" />
                 <input
                   type="number"
                   value={formData.commission || 0}
                   onChange={(e) => handleInputChange('commission', Number(e.target.value))}
                   placeholder="0"
                   min="0"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  className="form-input pl-10 sm:pl-12"
                 />
               </div>
             </div>

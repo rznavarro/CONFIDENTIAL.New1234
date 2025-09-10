@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useAuth } from './hooks/useAuth';
 import { ParticleBackground } from './components/ui/ParticleBackground';
 import { LoginForm } from './components/auth/LoginForm';
 import { TeamSelection } from './components/auth/TeamSelection';
 import { TeamVerification } from './components/auth/TeamVerification';
-import { Dashboard } from './components/dashboard/Dashboard';
+import { LoadingSpinner } from './components/ui/LoadingSpinner';
+
+// Lazy load Dashboard for better performance
+const Dashboard = lazy(() => import('./components/dashboard/Dashboard'));
 
 function App() {
   const { 
@@ -40,10 +43,12 @@ function App() {
       
       case 'dashboard':
         return (
-          <Dashboard 
-            user={authState.user!} 
-            onLogout={logout} 
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <Dashboard 
+              user={authState.user!} 
+              onLogout={logout} 
+            />
+          </Suspense>
         );
       
       default:

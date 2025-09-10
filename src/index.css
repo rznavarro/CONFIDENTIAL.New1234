@@ -59,26 +59,59 @@
   }
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .slide-in {
   animation: slideIn 0.5s ease-out forwards;
 }
 
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background: #1e293b;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #475569;
-  border-radius: 4px;
+  border-radius: 3px;
+  transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
 }
 
 /* Mobile responsive adjustments */
@@ -98,16 +131,20 @@
   /* Improve mobile scrolling */
   body {
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   
   /* Better mobile form inputs */
   input, textarea, select {
     font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-appearance: none;
+    border-radius: 8px;
   }
   
   /* Mobile-friendly buttons */
   button {
     min-height: 44px; /* iOS recommended touch target */
+    -webkit-tap-highlight-color: transparent;
   }
   
   /* Responsive text sizes */
@@ -122,13 +159,45 @@
   .text-responsive-xl {
     @apply text-lg lg:text-xl;
   }
+  
+  /* Mobile card spacing */
+  .mobile-card-spacing {
+    @apply p-4 m-2;
+  }
+  
+  /* Mobile grid adjustments */
+  .mobile-grid {
+    @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .tablet-grid {
+    @apply grid-cols-2 lg:grid-cols-3;
+  }
+  
+  .tablet-spacing {
+    @apply p-5 m-3;
+  }
 }
 
 /* Smooth transitions for better UX */
 * {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-  transition-duration: 150ms;
+  transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Improved focus states for accessibility */
@@ -138,6 +207,7 @@ select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid #06b6d4;
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
 }
 
 /* Better loading states */
@@ -153,5 +223,100 @@ textarea:focus-visible {
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Touch improvements */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Safe area for mobile devices with notches */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Improved form styling */
+.form-input {
+  @apply w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200;
+}
+
+.form-input:focus {
+  @apply bg-slate-700/70 border-cyan-400/50;
+}
+
+/* Card hover effects */
+.card-interactive {
+  @apply transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-1;
+}
+
+/* Button improvements */
+.btn-primary {
+  @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply bg-slate-700 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 hover:bg-slate-600 border border-slate-600 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* Loading states */
+.loading-skeleton {
+  @apply bg-slate-700/50 animate-pulse rounded;
+}
+
+/* Mobile-first grid system */
+.responsive-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+}
+
+.responsive-grid-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6;
+}
+
+.responsive-grid-3 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+}
+
+/* Container improvements */
+.container-responsive {
+  @apply w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6;
+}
+
+/* Text improvements */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Image optimizations */
+img {
+  @apply max-w-full h-auto;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
   }
 }
