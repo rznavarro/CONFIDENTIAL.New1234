@@ -19,7 +19,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     setError('');
     setIsLoading(true);
 
-    // Optimized loading time
+    // Simulate loading time
     await new Promise(resolve => setTimeout(resolve, 300));
 
     const success = onLogin(email, accessCode);
@@ -31,9 +31,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 lg:p-8">
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 lg:p-8 safe-area-inset">
       <div className="w-full max-w-md mx-auto">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <Logo size="lg" className="justify-center mb-4" />
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">
             Acceso al Sistema
@@ -81,7 +81,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
                 <button
                   type="button"
                   onClick={() => setShowAccessCode(!showAccessCode)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors touch-manipulation"
                 >
                   {showAccessCode ? <EyeOff className="h-4 w-4 sm:h-5 sm:w-5" /> : <Eye className="h-4 w-4 sm:h-5 sm:w-5" />}
                 </button>

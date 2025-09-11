@@ -19,6 +19,10 @@ function App() {
     goBackToTeamSelection 
   } = useAuth();
 
+  // Debug: Log current step
+  console.log('Current auth step:', authState.currentStep);
+  console.log('Auth state:', authState);
+
   const renderCurrentStep = () => {
     switch (authState.currentStep) {
       case 'login':

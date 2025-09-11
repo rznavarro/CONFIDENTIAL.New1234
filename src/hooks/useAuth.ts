@@ -19,6 +19,7 @@ export const useAuth = () => {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsedState = JSON.parse(stored);
+        console.log('Restored auth state:', parsedState);
         // Validate that the stored state has the required structure
         if (parsedState.isAuthenticated && parsedState.user && parsedState.currentStep === 'dashboard') {
           return parsedState;
@@ -26,13 +27,17 @@ export const useAuth = () => {
       }
     } catch (error) {
       console.error('Error restoring auth state:', error);
+      // Clear corrupted data
+      localStorage.removeItem(STORAGE_KEY);
     }
+    console.log('Using initial auth state');
     return initialAuthState;
   });
 
   // Save auth state to localStorage whenever it changes
   useEffect(() => {
     try {
+      console.log('Saving auth state:', authState);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(authState));
     } catch (error) {
       console.error('Error saving auth state:', error);
